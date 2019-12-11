@@ -11,70 +11,37 @@ const range = len => {
   return arr
 }
 
-const newPerson = () => {
-  const statusChance = Math.random()
-  return {
-    firstName: namor.generate({ words: 1, numbers: 0 }),
-    lastName: namor.generate({ words: 1, numbers: 0 }),
-    age: Math.floor(Math.random() * 30),
-    visits: Math.floor(Math.random() * 100),
-    progress: Math.floor(Math.random() * 100),
-    status:
-      statusChance > 0.66
-        ? 'relationship'
-        : statusChance > 0.33
-        ? 'complicated'
-        : 'single',
-  }
-}
-
-const columns = [
-  {
-   
-    
-      
-        Header: 'First Name',
-        accessor: 'firstName',
+const columns = [  
+      {
+        Header: 'ID',
+        accessor: 'id',
+        Filter: ''
       },
       {
-        Header: 'Last Name',
-        accessor: 'lastName',
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'Edition',
+        accessor: 'edition',
+        Filter: ''
       },
       { 
-        Header: 'Age',
-        accessor: 'age',
+        Header: 'Price',
+        accessor: 'price',
+        Filter: ''
       },
       {
-        Header: 'Visits',
-        accessor: 'visits',
-
+        Header: 'Owner',
+        accessor: 'owner',
+        Filter: ''
       },
       {
-        Header: 'Status',
-        accessor: 'status',
+        Header: 'Request',
+        accessor: 'request',
+        Filter: ''
       },
-      {
-        Header: 'Profile Progress',
-        accessor: 'progress',
-      },
-    
-  
 ]
-
-const data =  makeData(10)
-
-function makeData(...lens) {
-    const makeDataLevel = (depth = 0) => {
-    const len = lens[depth]
-    return range(len).map(d => {
-      return {
-        ...newPerson(),
-        subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
-      }
-    })
-  }
-  return makeDataLevel()
-}
 
   // Define a default UI for filtering
 function DefaultColumnFilter({
@@ -180,7 +147,7 @@ function Table({ columns, data }) {
           <code>{JSON.stringify(state.filters, null, 2)}</code>
         </pre>
       </div>
-      <table {...getTableProps()}>
+      <table {...getTableProps()} className = "table">
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -203,11 +170,13 @@ function Table({ columns, data }) {
                   {row.cells.map(cell => {
                     return (
                       <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    )
+
+                    ) 
                   })}
                 </tr>
               )}
           )}
+
         </tbody>
       </table>
       <br />
@@ -219,16 +188,35 @@ function Table({ columns, data }) {
 class Main extends Component {
 
   render() {
-    return (
 
+    const newData = this.props.books.map(book => {
+
+    return { 
+
+          id: book.id,
+          name: book.name,
+          edition: book.edition,
+          price: window.web3.utils.fromWei(book.price.toString(), 'Ether'),
+          owner: book.owner,
+          request: !book.hold
+                   ? <button 
+                        className="requestButton"
+                        name = {book.id}
+                        onClick={(event) => {
+                          this.props.requestBook(event.target.name)
+                        }}
+                        >
+                          Request
+                        </button>
+                   : "Requested" }
+
+      })
+    console.log(newData)
+
+    return (
       <div id="content" style={{ maxWidth: "100%" }}> 
         <p>&nbsp;</p>
-        <p>&nbsp;</p>
-
-        <h2>My Books</h2>
-        <h2>Manager</h2>
         <h1>Please Add a New Book</h1>
-
         <form onSubmit={(event) => {
           //
           event.preventDefault()
@@ -266,11 +254,8 @@ class Main extends Component {
           </div>
           <button type="submit" className="btn btn-primary">Add Book</button>
         </form>
-
         <p>&nbsp;</p>
-
-        <p>&nbsp;</p>
-        
+        {/*
         <table className="table">
           <thead>
             <tr>
@@ -298,7 +283,7 @@ class Main extends Component {
                         name = {book.id}
                         value = {book.price}
                         onClick={(event) => {
-                          this.props.requestBook(event.target.name, event.target.value)
+                          this.props.requestBook(event.target.name)
                         }}
                         >
                           Request
@@ -321,7 +306,8 @@ class Main extends Component {
             })}
           </tbody>
         </table>
-        <Table columns={columns} data={data} />
+        */}
+        <Table columns={columns} data={newData} />
       </div>
     );
   }

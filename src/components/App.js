@@ -87,7 +87,7 @@ class App extends Component {
     })
   }
 
-  requestBook(id, price) {
+  requestBook(id) {
     this.setState({ loading : true})
     this.state.dbooks.methods.requestBook(id).send({ from: this.state.account })
     .once('receipt', (receipt) => {
