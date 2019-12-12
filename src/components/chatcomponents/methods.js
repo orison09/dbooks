@@ -94,7 +94,7 @@ function connectToChatkit(event) {
       });
 
       const chatManager = new Chatkit.ChatManager({
-        instanceLocator: '<your chatkit instance locator>',
+        instanceLocator: 'v1:us1:693d33c2-d05e-4e22-91b1-1a2f9521e710',
         userId,
         tokenProvider,
       });
