@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import Web3 from 'web3';
 import logo from '../logo.png';
-import './App.css';
 import Dbooks from '../abis/Dbooks.json';
 import Navbar from './navbar';
 import Main from './Main';
 import ManagerPage from './ManagerPage';
 import MyBooks from './MyBooks';
+import MessageComp from './MessageComp';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
@@ -184,6 +184,28 @@ class App extends Component {
                   {this.state.loading 
                     ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
                     : <MyBooks 
+                        thisaccount = {this.state.account}
+                        books = {this.state.books}
+                        createBook = {this.createBook}
+                        requestBook = {this.requestBook} 
+                        discount = {this.discount}
+                        purchaseBook = {this.purchaseBook} 
+                        accept = {this.accept}
+                        deposit = {this.deposit}  /> }
+                  </main>
+              </div>
+            </div>
+          </div>
+        </Route>
+        <Route exact path='/Messages'>
+          <div>
+            <Navbar account={this.state.account} />
+              <div className="container-fluid mt-5">
+              <div className="row">
+                <main role="main" className="col-lg-12 d-flex">
+                  {this.state.loading 
+                    ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+                    : <MessageComp 
                         thisaccount = {this.state.account}
                         books = {this.state.books}
                         createBook = {this.createBook}
