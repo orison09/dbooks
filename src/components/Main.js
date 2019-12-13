@@ -142,11 +142,11 @@ function Table({ columns, data }) {
 
   return (
     <>
-      <div>
+      {/*<div>
         <pre>
           <code>{JSON.stringify(state.filters, null, 2)}</code>
         </pre>
-      </div>
+      </div>  */}
       <table {...getTableProps()} className = "table">
         <thead>
           {headerGroups.map(headerGroup => (
@@ -216,7 +216,7 @@ class Main extends Component {
     return (
       <div id="content" style={{ maxWidth: "100%" }}> 
         <p>&nbsp;</p>
-        <h1>Please Add a New Book</h1>
+        <h2>Please Add a New Book</h2>
         <form onSubmit={(event) => {
           //
           event.preventDefault()
@@ -254,7 +254,7 @@ class Main extends Component {
           </div>
           <button type="submit" className="btn btn-primary">Add Book</button>
         </form>
-        <p>&nbsp;</p>
+        <h2>Browse Available Books</h2>
         {/*
         <table className="table">
           <thead>

@@ -16,8 +16,10 @@ class Navbar extends Component {
         </a>
         
         <a href="http://localhost:3000">Book Store</a>
-        <a href="http://localhost:3000/ManagerPage">Manager Page</a>
+        <a href="http://localhost:3000/Chat">Chat</a>
         <a href="http://localhost:3000/MyBooks">My Books</a>
+        <a href="http://localhost:3000/ManagerPage">Manager Page</a>
+        
         
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
