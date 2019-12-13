@@ -1,24 +1,22 @@
- // server.js
+require('dotenv').config({ path: '.env' });
 
-    require('dotenv').config({ path: '.env' });
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const Chatkit = require('@pusher/chatkit-server');
 
-    const express = require('express');
-    const bodyParser = require('body-parser');
-    const cors = require('cors');
-    const Chatkit = require('@pusher/chatkit-server');
+const app = express();
 
-    const app = express();
-
-    const chatkit = new Chatkit.default({
+const chatkit = new Chatkit.default({
       instanceLocator: process.env.CHATKIT_INSTANCE_LOCATOR,
       key: process.env.CHATKIT_SECRET_KEY,
     });
 
-    app.use(cors());
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-    app.post('/users', (req, res) => {
+app.post('/users', (req, res) => {
       const { userId } = req.body;
 
       chatkit
