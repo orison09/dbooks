@@ -96,9 +96,9 @@ class App extends Component {
     })
   }
 
-   discount(id, price) {
+   discount(id, discount) {
     this.setState({ loading : true})
-    this.state.dbooks.methods.discount(id).send({ from: this.state.account })
+    this.state.dbooks.methods.discount(id, discount).send({ from: this.state.account })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
     })

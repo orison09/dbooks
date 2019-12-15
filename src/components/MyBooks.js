@@ -16,7 +16,7 @@ class MyBooks extends Component {
               <th scope="col">Name</th>
               <th scope="col">Edition</th>
               <th scope="col">Price</th>
-              <th scope="col">Owner</th>
+              <th scope="col">Discount</th>
               <th scope="col">Request</th>
               <th scope="col">Purchase</th>
               <th scope="col">Accept Seller</th>
@@ -32,9 +32,10 @@ class MyBooks extends Component {
               : <tr key={key}>
                 <th scope="row">{book.id.toString()}</th>
                 <td>{book.name}</td>
-                <th scope="row">{book.edition.toString()}</th>
+                <th scope="row">({book.edition.toString()})</th>
                 <td>{window.web3.utils.fromWei(book.price.toString(), 'Ether')}</td>
-                <td>{book.owner}</td>
+                <td>{window.web3.utils.fromWei(book.discount.toString(), 'Ether')}</td>
+
                 <td>  
                     { !book.hold
                       ? <button 
@@ -172,7 +173,35 @@ class MyBooks extends Component {
             })}
           </tbody>
         </table>
-
+        <h2>Set a Discount</h2>
+                <td>  
+                  <form onSubmit={(event) => {   //
+                      event.preventDefault()
+                      const disco = window.web3.utils.toWei(this.bookDiscount.value.toString(), 'ether')
+                      const name = this.bookName.value
+                      this.props.discount(disco, name)
+                        }}>
+                      <div className="form-group mr-sm-2">
+                        <input
+                          id="bookName"
+                          type="text"
+                          ref={(input) => { this.bookName = input }}
+                          className="form-control"
+                          placeholder="Choose an ID"
+                          required /> 
+                        </div>
+                      <div className="form-group mr-sm-2">
+                        <input
+                          id="bookDiscount"
+                          type="text"
+                          ref={(input) => { this.bookDiscount = input }}
+                          className="form-control"
+                          placeholder="Set a Discount"
+                          required /> 
+                        </div>
+                      <button type="submit" className="btn btn-primary">Set</button>
+                  </form>
+                </td>
 
         <h2>These are your requested Books</h2>
         <table className="table" responsive>
@@ -198,7 +227,7 @@ class MyBooks extends Component {
               : <tr key={key}>
                 <th scope="row">{book.id.toString()}</th>
                 <td>{book.name}</td>
-                <th scope="row">{book.edition.toString()}</th>
+                <th scope="row">({book.edition.toString()})</th>
                 <td>{window.web3.utils.fromWei(book.price.toString(), 'Ether')}</td>
                 <td>{book.owner}</td>
                 <td>  

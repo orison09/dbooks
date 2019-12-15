@@ -16,6 +16,7 @@ class ManagerPage extends Component {
               <th scope="col">Edition</th>
               <th scope="col">Price</th>
               <th scope="col">Owner</th>
+              <th scope="col">Buyer</th>
               <th scope="col">Request</th>
               <th scope="col">Purchase</th>
               <th scope="col">Accept Seller</th>
@@ -29,9 +30,10 @@ class ManagerPage extends Component {
               <tr key={key}>
                 <th scope="row">{book.id.toString()}</th>
                 <td>{book.name}</td>
-                <th scope="row">{book.edition.toString()}</th>
+                <th scope="row">({book.edition.toString()})</th>
                 <td>{window.web3.utils.fromWei(book.price.toString(), 'Ether')}</td>
                 <td>{book.owner}</td>
+                <td>{book.buyer}</td>
                 <td>  
                     { !book.hold
                       ? <p>Available</p>
