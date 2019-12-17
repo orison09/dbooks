@@ -6,8 +6,6 @@ class MyBooks extends Component {
     return (
       <div id="content"> 
       	<p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <h2>My Books</h2>
         <h2>These are your books on sale</h2>
         <table className="table" responsive>
           <thead>
@@ -173,7 +171,7 @@ class MyBooks extends Component {
             })}
           </tbody>
         </table>
-        <h2>Set a Discount</h2>
+        <h4>Set a Discount for your Book</h4>
                 <td>  
                   <form onSubmit={(event) => {   //
                       event.preventDefault()
