@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { useTable, useFilters } from 'react-table'
 import namor from 'namor'
+import renderHTML from 'react-render-html'
 
 
 const range = len => {
@@ -10,38 +11,6 @@ const range = len => {
   }
   return arr
 }
-
-const columns = [  
-      {
-        Header: 'ID',
-        accessor: 'id',
-        Filter: ''
-      },
-      {
-        Header: 'Name',
-        accessor: 'name',
-      },
-      {
-        Header: 'Edition',
-        accessor: 'edition',
-        Filter: ''
-      },
-      { 
-        Header: 'Price',
-        accessor: 'price',
-        Filter: ''
-      },
-      {
-        Header: 'Owner',
-        accessor: 'owner',
-        Filter: ''
-      },
-      {
-        Header: 'Request',
-        accessor: 'request',
-        Filter: ''
-      },
-]
 
   // Define a default UI for filtering
 function DefaultColumnFilter({
@@ -95,6 +64,8 @@ function SelectColumnFilter({
 
 // Our table component
 function Table({ columns, data }) {
+
+
   const filterTypes = React.useMemo(
     () => ({
       text: (rows, id, filterValue) => {
@@ -168,9 +139,9 @@ function Table({ columns, data }) {
               return (
                 <tr {...row.getRowProps()}>
                   {row.cells.map(cell => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-
+                    return ( 
+                      <td {...cell.getCellProps()}>{
+                        cell.render('Cell')}</td>
                     ) 
                   })}
                 </tr>
@@ -189,29 +160,60 @@ class Main extends Component {
 
   render() {
 
+      const columns = [  
+      
+      {
+        Header: 'ID',
+        accessor: 'id',
+        Filter: ''
+      },
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'Edition',
+        accessor: 'edition',
+        Filter: ''
+      },
+      { 
+        Header: 'Price',
+        accessor: 'price',
+        Filter: ''
+      },
+      {
+        Header: 'Owner',
+        accessor: 'owner',
+        Filter: ''
+      },
+      {
+        Header: 'Request',
+        accessor: 'request',
+        Filter: '',
+        Cell: cellInfo => !cellInfo.row.original.request
+                      ? <button
+                         className = "RequestButton"
+                         onClick={() => {this.props.requestBook(cellInfo.row.original.id)}}>
+                            {console.log(cellInfo.row.original)}
+                            Request
+                        </button>
+                      : <button onClick={() => alert("Unavailable")}>
+                          Unavailable
+                        </button>
+      },
+    ]
+
     const newData = this.props.books.map(book => {
 
-    return { 
-
+      return { 
           id: book.id,
           name: book.name,
           edition: book.edition,
           price: window.web3.utils.fromWei(book.price.toString(), 'Ether'),
           owner: book.owner,
-          request: !book.hold
-                   ? <button 
-                        className="requestButton"
-                        name = {book.id}
-                        onClick={(event) => {
-                          this.props.requestBook(event.target.name)
-                        }}
-                        >
-                          Request
-                        </button>
-                   : "Requested" }
-
-      })
-    console.log(newData)
+          request: book.hold 
+        }
+    })
 
     return (
       <div id="content" style={{ maxWidth: "100%" }}> 
@@ -255,60 +257,8 @@ class Main extends Component {
           <button type="submit" className="btn btn-primary">Add Book</button>
         </form>
         <h2>Browse Available Books</h2>
-        {/*
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Edition</th>
-              <th scope="col">Price</th>
-              <th scope="col">Owner</th>
-              <th scope="col">Request</th>
-            </tr>
-          </thead>
-          <tbody id="bookList">
-            { this.props.books.map((book, key) => {
-              return(
-              <tr key={key}>
-                <th scope="row">{book.id.toString()}</th>
-                <td>{book.name}</td>
-                <th scope="row">{book.edition.toString()}</th>
-                <td>{window.web3.utils.fromWei(book.price.toString(), 'Ether')}</td>
-                <td>{book.owner}</td>
-                <td>  
-                    { !book.hold
-                      ? <button 
-                        className="requestButton"
-                        name = {book.id}
-                        value = {book.price}
-                        onClick={(event) => {
-                          this.props.requestBook(event.target.name)
-                        }}
-                        >
-                          Request
-                        </button>
-                      : <button 
-                        className="requestButton"
-                        disabled = {true}
-                        name = {book.id}
-                        value = {book.price}
-                        onClick={(event) => {
-                          console.log("already requested!")
-                        }}
-                        >
-                          Requested
-                        </button>
-                    }
-                </td>
-              </tr>
-              )
-            })}
-          </tbody>
-        </table>
-        */}
         <Table columns={columns} data={newData} />
-      </div>
+      </div> 
     );
   }
 }
