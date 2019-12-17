@@ -63,47 +63,8 @@ function SelectColumnFilter({
 }
 
 // Our table component
-function Table({ data }) {
+function Table({ columns, data }) {
 
-  const columns = [  
-      {
-        Header: 'ID',
-        accessor: 'id',
-        Filter: ''
-      },
-      {
-        Header: 'Name',
-        accessor: 'name',
-      },
-      {
-        Header: 'Edition',
-        accessor: 'edition',
-        Filter: ''
-      },
-      { 
-        Header: 'Price',
-        accessor: 'price',
-        Filter: ''
-      },
-      {
-        Header: 'Owner',
-        accessor: 'owner',
-        Filter: ''
-      },
-      {
-        Header: 'Request',
-        accessor: 'request',
-        Filter: '',
-        Cell: cellInfo => !cellInfo.value
-                      ? <button onClick={() => {this.props.requestBook(cellInfo.row.original.id)}}>
-                           {console.log(cellInfo.row.original.id.toString())}
-                           Request
-                        </button>
-                      : <button onClick={() => alert("Unavailable")}>
-                          Unavailable
-                        </button>
-      },
-]
 
   const filterTypes = React.useMemo(
     () => ({
@@ -199,6 +160,49 @@ class Main extends Component {
 
   render() {
 
+      const columns = [  
+      
+      {
+        Header: 'ID',
+        accessor: 'id',
+        Filter: ''
+      },
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'Edition',
+        accessor: 'edition',
+        Filter: ''
+      },
+      { 
+        Header: 'Price',
+        accessor: 'price',
+        Filter: ''
+      },
+      {
+        Header: 'Owner',
+        accessor: 'owner',
+        Filter: ''
+      },
+      {
+        Header: 'Request',
+        accessor: 'request',
+        Filter: '',
+        Cell: cellInfo => !cellInfo.row.original.request
+                      ? <button
+                         className = "RequestButton"
+                         onClick={() => {this.props.requestBook(cellInfo.row.original.id)}}>
+                            {console.log(cellInfo.row.original)}
+                            Request
+                        </button>
+                      : <button onClick={() => alert("Unavailable")}>
+                          Unavailable
+                        </button>
+      },
+    ]
+
     const newData = this.props.books.map(book => {
 
       return { 
@@ -253,7 +257,7 @@ class Main extends Component {
           <button type="submit" className="btn btn-primary">Add Book</button>
         </form>
         <h2>Browse Available Books</h2>
-        <Table requestBook={this.requestBook} data={newData} />
+        <Table columns={columns} data={newData} />
       </div> 
     );
   }

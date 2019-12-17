@@ -7,7 +7,7 @@ class MyBooks extends Component {
       <div id="content"> 
       	<p>&nbsp;</p>
         <h2>These are your books on sale</h2>
-        <table className="table" responsive>
+        <table className="table">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -202,7 +202,7 @@ class MyBooks extends Component {
                 </td>
 
         <h2>These are your requested Books</h2>
-        <table className="table" responsive>
+        <table className="table">
           <thead>
             <tr>
               <th scope="col">#</th>
