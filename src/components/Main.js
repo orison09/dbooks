@@ -12,38 +12,6 @@ const range = len => {
   return arr
 }
 
-const columns = [  
-      {
-        Header: 'ID',
-        accessor: 'id',
-        Filter: ''
-      },
-      {
-        Header: 'Name',
-        accessor: 'name',
-      },
-      {
-        Header: 'Edition',
-        accessor: 'edition',
-        Filter: ''
-      },
-      { 
-        Header: 'Price',
-        accessor: 'price',
-        Filter: ''
-      },
-      {
-        Header: 'Owner',
-        accessor: 'owner',
-        Filter: ''
-      },
-      {
-        Header: 'Request',
-        accessor: 'request',
-        Filter: ''
-      },
-]
-
   // Define a default UI for filtering
 function DefaultColumnFilter({
      column: { filterValue, preFilteredRows, setFilter },
@@ -95,7 +63,46 @@ function SelectColumnFilter({
 }
 
 // Our table component
-function Table({ columns, data }) {
+function Table({ data }) {
+
+  const columns = [  
+      {
+        Header: 'ID',
+        accessor: 'id',
+        Filter: ''
+      },
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'Edition',
+        accessor: 'edition',
+        Filter: ''
+      },
+      { 
+        Header: 'Price',
+        accessor: 'price',
+        Filter: ''
+      },
+      {
+        Header: 'Owner',
+        accessor: 'owner',
+        Filter: ''
+      },
+      {
+        Header: 'Request',
+        accessor: 'request',
+        Filter: '',
+        Cell: props => !props.value
+                      ? <button onClick={() => alert("Requesting")}>
+                          Request
+                        </button>
+                      : <button onClick={() => alert("Unavailable")}>
+                          Unavailable
+                        </button>
+      },
+]
   const filterTypes = React.useMemo(
     () => ({
       text: (rows, id, filterValue) => {
@@ -169,12 +176,9 @@ function Table({ columns, data }) {
               return (
                 <tr {...row.getRowProps()}>
                   {row.cells.map(cell => {
-                    console.log(cell)
                     return ( 
-
                       <td {...cell.getCellProps()}>{
                         cell.render('Cell')}</td>
-
                     ) 
                   })}
                 </tr>
@@ -195,23 +199,15 @@ class Main extends Component {
 
     const newData = this.props.books.map(book => {
 
-    return { 
-
+      return { 
           id: book.id,
           name: book.name,
           edition: book.edition,
           price: window.web3.utils.fromWei(book.price.toString(), 'Ether'),
           owner: book.owner,
-          request: !book.hold
-                   ? renderHTML(<a
-                        name = {book.id}
-                        onClick={(event) => {this.props.requestBook(event.target.name)}}
-                        >
-                          Request
-                        </a>)
-                   : "Requested" }
-
-      })
+          request: book.hold 
+        }
+    })
 
     return (
       <div id="content" style={{ maxWidth: "100%" }}> 
@@ -255,8 +251,8 @@ class Main extends Component {
           <button type="submit" className="btn btn-primary">Add Book</button>
         </form>
         <h2>Browse Available Books</h2>
-        <Table columns={columns} data={newData} />
-      </div>
+        <Table requestBook={this.requestBook} data={newData} />
+      </div> 
     );
   }
 }
