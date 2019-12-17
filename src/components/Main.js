@@ -94,15 +94,17 @@ function Table({ data }) {
         Header: 'Request',
         accessor: 'request',
         Filter: '',
-        Cell: props => !props.value
-                      ? <button onClick={() => alert("Requesting")}>
-                          Request
+        Cell: cellInfo => !cellInfo.value
+                      ? <button onClick={() => {this.props.requestBook(cellInfo.row.original.id)}}>
+                           {console.log(cellInfo.row.original.id.toString())}
+                           Request
                         </button>
                       : <button onClick={() => alert("Unavailable")}>
                           Unavailable
                         </button>
       },
 ]
+
   const filterTypes = React.useMemo(
     () => ({
       text: (rows, id, filterValue) => {
