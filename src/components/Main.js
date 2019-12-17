@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { useTable, useFilters } from 'react-table'
 import namor from 'namor'
+import renderHTML from 'react-render-html'
 
 
 const range = len => {
@@ -168,8 +169,11 @@ function Table({ columns, data }) {
               return (
                 <tr {...row.getRowProps()}>
                   {row.cells.map(cell => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    console.log(cell)
+                    return ( 
+
+                      <td {...cell.getCellProps()}>{
+                        cell.render('Cell')}</td>
 
                     ) 
                   })}
@@ -199,14 +203,12 @@ class Main extends Component {
           price: window.web3.utils.fromWei(book.price.toString(), 'Ether'),
           owner: book.owner,
           request: !book.hold
-                   ? <a 
+                   ? renderHTML(<a
                         name = {book.id}
-                        onClick={(event) => {
-                          this.props.requestBook(event.target.name)
-                        }}
+                        onClick={(event) => {this.props.requestBook(event.target.name)}}
                         >
                           Request
-                        </a>
+                        </a>)
                    : "Requested" }
 
       })
