@@ -199,19 +199,17 @@ class Main extends Component {
           price: window.web3.utils.fromWei(book.price.toString(), 'Ether'),
           owner: book.owner,
           request: !book.hold
-                   ? <button 
-                        className="requestButton"
+                   ? <a 
                         name = {book.id}
                         onClick={(event) => {
                           this.props.requestBook(event.target.name)
                         }}
                         >
                           Request
-                        </button>
+                        </a>
                    : "Requested" }
 
       })
-    console.log(newData)
 
     return (
       <div id="content" style={{ maxWidth: "100%" }}> 
@@ -255,58 +253,6 @@ class Main extends Component {
           <button type="submit" className="btn btn-primary">Add Book</button>
         </form>
         <h2>Browse Available Books</h2>
-        {/*
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Edition</th>
-              <th scope="col">Price</th>
-              <th scope="col">Owner</th>
-              <th scope="col">Request</th>
-            </tr>
-          </thead>
-          <tbody id="bookList">
-            { this.props.books.map((book, key) => {
-              return(
-              <tr key={key}>
-                <th scope="row">{book.id.toString()}</th>
-                <td>{book.name}</td>
-                <th scope="row">{book.edition.toString()}</th>
-                <td>{window.web3.utils.fromWei(book.price.toString(), 'Ether')}</td>
-                <td>{book.owner}</td>
-                <td>  
-                    { !book.hold
-                      ? <button 
-                        className="requestButton"
-                        name = {book.id}
-                        value = {book.price}
-                        onClick={(event) => {
-                          this.props.requestBook(event.target.name)
-                        }}
-                        >
-                          Request
-                        </button>
-                      : <button 
-                        className="requestButton"
-                        disabled = {true}
-                        name = {book.id}
-                        value = {book.price}
-                        onClick={(event) => {
-                          console.log("already requested!")
-                        }}
-                        >
-                          Requested
-                        </button>
-                    }
-                </td>
-              </tr>
-              )
-            })}
-          </tbody>
-        </table>
-        */}
         <Table columns={columns} data={newData} />
       </div>
     );
