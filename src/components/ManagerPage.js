@@ -13,7 +13,6 @@ class ManagerPage extends Component {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Name</th>
-              <th scope="col">Edition</th>
               <th scope="col">Price</th>
               <th scope="col">Owner</th>
               <th scope="col">Buyer</th>
@@ -21,7 +20,8 @@ class ManagerPage extends Component {
               <th scope="col">Purchase</th>
               <th scope="col">Accept Seller</th>
               <th scope="col">Accept Buyer</th>
-              <th scope="col"> </th>
+              <th scope="col">Deposit</th>
+              <th scope="col">Abort</th>
             </tr>
           </thead>
           <tbody id="bookList">
@@ -30,7 +30,6 @@ class ManagerPage extends Component {
               <tr key={key}>
                 <th scope="row">{book.id.toString()}</th>
                 <td>{book.name}</td>
-                <th scope="row">({book.edition.toString()})</th>
                 <td>{window.web3.utils.fromWei(book.price.toString(), 'Ether')}</td>
                 <td>{book.owner}</td>
                 <td>{book.buyer}</td>
@@ -104,6 +103,23 @@ class ManagerPage extends Component {
                               }}
                               >
                                 Deposit
+                              </button>
+                        
+                    }
+                </td>
+                <td>  
+                    { !book.hold
+                      ? null
+                      :
+                        <button 
+                              className="abortButton"
+                              name = {book.id}
+                              value = {book.price}
+                              onClick={(event) => {
+                                this.props.abortReq(event.target.name, event.target.value)
+                              }}
+                              >
+                                ABORT
                               </button>
                         
                     }

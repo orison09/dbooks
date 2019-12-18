@@ -225,4 +225,28 @@ contract Dbooks {
         uint payment = amount - fee;
         _seller.transfer(payment);
         }
+
+    function abortReq(uint _id) public payable{
+        //Get book
+        Book memory _thisbook = books[_id];
+         //Require that book is requested
+        require(_thisbook.hold);
+        //Get owner
+        address payable _seller = _thisbook.owner;
+        //Calculate fee
+        uint fee = _thisbook.price;
+        //Require Ether
+        require(msg.value >= _thisbook.price);
+
+        //Mark as Not Requested 
+        _thisbook.hold = false;
+        //Mark Discount to zero 
+        _thisbook.discount = 0;
+        //Drop buye
+        _thisbook.buyer = 0x0000000000000000000000000000000000000000;
+        //Update
+        books[_id] = _thisbook;
+        
+        _seller.transfer(fee);
+    }
 }

@@ -66,3 +66,14 @@ form {
   max-width: 900px;
   margin: 0 auto 40px;
 }
+
+.navbar-dark .navbar-brand {
+    color: #fff;
+    font-size: 20px;
+}
+
+a {
+    color: #1EAEDB;
+    font-size: 20px;
+}
+

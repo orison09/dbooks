@@ -78,6 +78,7 @@ class App extends Component {
     this.purchaseBook = this.purchaseBook.bind(this)
     this.accept = this.accept.bind(this)
     this.deposit = this.deposit.bind(this)
+    this.abortReq = this.abortReq.bind(this)
   }
 
   createBook(name, edition, price) {
@@ -128,6 +129,14 @@ class App extends Component {
     })
   }
 
+   abortReq(id, price) {
+    this.setState({ loading : true})
+    this.state.dbooks.methods.abortReq(id).send({ from: this.state.account, value : price })
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+  }
+
 
   render() {
     return (
@@ -170,7 +179,8 @@ class App extends Component {
                         discount = {this.discount}
                         purchaseBook = {this.purchaseBook} 
                         accept = {this.accept}
-                        deposit = {this.deposit}  /> }
+                        deposit = {this.deposit}
+                        abortReq = {this.abortReq}  /> }
                   </main>
               </div>
             </div>
